@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ipnginx
+  template:
+    metadata:
+      labels:
+        app: ipnginx
+    spec:
+      containers:
+        - name: ipnginx
+          image: jyy0103/sbimage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-svc
+spec:
+  selector:
+    app: ipnginx
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
