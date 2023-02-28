@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ipnginx
-          image: jyy0103/uparupa:3
+          image: jyy0103/uparupa:4
 ---
 apiVersion: v1
 kind: Service
