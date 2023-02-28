@@ -53,7 +53,7 @@ pipeline {
         sh "docker build -t ${dockerHubRegistry}:${currentBuild.number} ."
         sh "docker build -t ${dockerHubRegistry}:latest ."
         
-        sh "docker build -t ${dockerHubRegistry2}:${currentBuild.number} ."
+        sh "docker build -t ${dockerHubRegistry2}:${currentBuild.number} -f m-Dockerfile ."
         sh "docker build -t ${dockerHubRegistry2}:latest ."
         // jyy01-3/sbimage:4  이런식으로 빌드가 될 것이다.
         // currentBuild.number 젠킨스에서 제공하는 빌드넘버변수.
