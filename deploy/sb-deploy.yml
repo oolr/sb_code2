@@ -28,4 +28,4 @@ spec:
     spec:
       containers:
         - name: spring
-          image: oolralra/sbimage:15
+          image: jyy0103/sbimage:13
