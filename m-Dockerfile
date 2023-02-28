@@ -1,0 +1,2 @@
+FROM pengbai/docker-supermario:latest
+EXPOSE 8080
