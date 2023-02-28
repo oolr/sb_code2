@@ -9,8 +9,8 @@ pipeline {
   environment {
     gitName = 'oolr'
     gitEmail = 'jyy013@gmail.com'
-    gitWebaddress = 'https://github.com/oolr/sb_code.git'
-    gitSshaddress = 'git@github.com:oolr/sb_code.git'
+    gitWebaddress = 'https://github.com/oolr/sb_code2.git'
+    gitSshaddress = 'git@github.com:oolr/sb_code2.git'
     gitCredential = 'git_cre' //github credential 생성시의 ID
     dockerHubRegistry = 'jyy0103/sbimage'
     dockerHubRegistryCredential = 'docker_cre'
