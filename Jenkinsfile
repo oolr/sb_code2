@@ -13,6 +13,7 @@ pipeline {
     gitSshaddress = 'git@github.com:oolr/sb_code2.git'
     gitCredential = 'git_cre' //github credential 생성시의 ID
     dockerHubRegistry = 'jyy0103/sbimage'
+    dockerHubRegistry2 = 'jyy0103/uparupa'
     dockerHubRegistryCredential = 'docker_cre'
   }
 
@@ -51,6 +52,9 @@ pipeline {
       steps {
         sh "docker build -t ${dockerHubRegistry}:${currentBuild.number} ."
         sh "docker build -t ${dockerHubRegistry}:latest ."
+        
+        sh "docker build -t ${dockerHubRegistry2}:${currentBuild.number} ."
+        sh "docker build -t ${dockerHubRegistry2}:latest ."
         // jyy01-3/sbimage:4  이런식으로 빌드가 될 것이다.
         // currentBuild.number 젠킨스에서 제공하는 빌드넘버변수.
       }
@@ -71,6 +75,9 @@ pipeline {
           // dockerHubRegistryCredential : environment에서 선언한 docker_cre  
             sh "docker push ${dockerHubRegistry}:${currentBuild.number}"
             sh "docker push ${dockerHubRegistry}:latest"
+
+            sh "docker push ${dockerHubRegistry2}:${currentBuild.number}"
+            sh "docker push ${dockerHubRegistry2}:latest"
           }
       }
       post {
@@ -78,10 +85,16 @@ pipeline {
             echo 'Docker image push failure'
             sh "docker image rm -f ${dockerHubRegistry}:${currentBuild.number}"
             sh "docker image rm -f ${dockerHubRegistry}:latest"
+          
+            sh "docker image rm -f ${dockerHubRegistry2}:${currentBuild.number}"
+            sh "docker image rm -f ${dockerHubRegistry2}:latest"
         }
         success {            
             sh "docker image rm -f ${dockerHubRegistry}:${currentBuild.number}"
             sh "docker image rm -f ${dockerHubRegistry}:latest"
+          
+            sh "docker image rm -f ${dockerHubRegistry2}:${currentBuild.number}"
+            sh "docker image rm -f ${dockerHubRegistry2}:latest"
             echo 'Docker image push success'
         }
      }
@@ -97,8 +110,9 @@ pipeline {
         sh "git config --global user.email ${gitEmail}"
         sh "git config --global user.name ${gitName}"
         sh "sed -i 's@${dockerHubRegistry}:.*@${dockerHubRegistry}:${currentBuild.number}@g' deploy/sb-deploy.yml"
+        sh "sed -i 's@${dockerHubRegistry2}:.*@${dockerHubRegistry2}:${currentBuild.number}@g' deploy/my-deploy.yml"
         sh "git add ."
-        sh "git commit -m 'fix:${dockerHubRegistry} ${currentBuild.number} image versioning'"
+        sh "git commit -m 'fix:${dockerHubRegistry} ${dockerHubRegistry2} ${currentBuild.number} image versioning'"
         sh "git branch -M main"
         sh "git remote remove origin"
         sh "git remote add origin ${gitSshaddress}"
